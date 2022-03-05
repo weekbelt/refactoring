@@ -1,16 +1,15 @@
 package me.whiteship.refactoring._03_long_function._11_decompose_conditional;
 
-import org.kohsuke.github.GHIssue;
-import org.kohsuke.github.GHIssueComment;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.kohsuke.github.GHIssue;
+import org.kohsuke.github.GHIssueComment;
+import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.GitHub;
 
 public class StudyDashboard {
 
@@ -33,7 +32,7 @@ public class StudyDashboard {
         ExecutorService service = Executors.newFixedThreadPool(8);
         CountDownLatch latch = new CountDownLatch(totalNumberOfEvents);
 
-        for (int index = 1 ; index <= totalNumberOfEvents ; index++) {
+        for (int index = 1; index <= totalNumberOfEvents; index++) {
             int eventId = index;
             service.execute(new Runnable() {
                 @Override
@@ -62,15 +61,24 @@ public class StudyDashboard {
     }
 
     private Participant findParticipant(String username, List<Participant> participants) {
-        Participant participant;
-        if (participants.stream().noneMatch(p -> p.username().equals(username))) {
-            participant = new Participant(username);
-            participants.add(participant);
-        } else {
-            participant = participants.stream().filter(p -> p.username().equals(username)).findFirst().orElseThrow();
-        }
+        return isNewParticipant(username, participants) ?
+            createNewParticipant(username, participants) : findExistingParticipant(username, participants);
+    }
 
+    private boolean isNewParticipant(String username, List<Participant> participants) {
+        return participants.stream().noneMatch(p -> p.username().equals(username));
+    }
+
+    private Participant createNewParticipant(String username, List<Participant> participants) {
+        Participant participant;
+        participant = new Participant(username);
+        participants.add(participant);
         return participant;
     }
 
+    private Participant findExistingParticipant(String username, List<Participant> participants) {
+        Participant participant;
+        participant = participants.stream().filter(p -> p.username().equals(username)).findFirst().orElseThrow();
+        return participant;
+    }
 }
