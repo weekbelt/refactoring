@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class Reservation {
 
+    // 죽은 코드 삭제
     private String title;
 
     private LocalDateTime from;
