@@ -1,8 +1,9 @@
 package me.whiteship.refactoring._16_temporary_field._36_introduce_special_case;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class CustomerServiceTest {
 
@@ -34,7 +35,6 @@ class CustomerServiceTest {
 
         assertEquals(0, customerService.weeksDelinquent(new Site(unknown)));
     }
-
 
 
 }
